@@ -35,7 +35,7 @@ def falar_(word, word_eol, userdata):
 		palavras = palavras[0:-1]
 	current = xchat.get_info('channel')
 	nickname = nickname[0:nickname.index(" ")]
-	if (nickname[0].isalpha() == False):
+	if (nickname[0].isalnum() == False):
 		nickname = nickname[3:]
 	#print nickname[1].isalpha()
 	#print nickname[5].isalpha()
