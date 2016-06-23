@@ -35,6 +35,10 @@ def falar_(word, word_eol, userdata):
 		palavras = palavras[0:-1]
 	current = xchat.get_info('channel')
 	nickname = nickname[0:nickname.index(" ")]
+	if (nickname[0].isalpha() == False):
+		nickname = nickname[3:]
+	#print nickname[1].isalpha()
+	#print nickname[5].isalpha()
 	for lang,canal in enumerate(channels):
 			if (current == canal):
 				with open("C:/Temp/teste-%s-%s" % (current[1:], nickname), 'w') as f:
@@ -46,3 +50,4 @@ xchat.hook_print('Channel Msg Hilight', falar_)
 xchat.hook_print('Your Message', falar_)
  
 print "%s loaded." % __module_name__
+
