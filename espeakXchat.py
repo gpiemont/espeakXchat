@@ -29,7 +29,7 @@ def espeaking1(chan, lang, nick):
 			identidade = "mbrola-4"
 		else:
 #			print "eles"
-			identidade = "mbrola-1"
+			identidade = "mbrola-3"
 		os.system('espeak -g 10 --pho -p 30 -s 170 -v %s%s -f /tmp/teste-%s-%s ' % (lang, identidade, chan, nick))
 		os.system('espeak -w /tmp/%03d.%s-%s.wav -g 3 --pho -p 10 -s 150 -v %s%s -f /tmp/teste-%s-%s ' % (audioS, lang, identidade, nick, lang, chan, nick))
  
