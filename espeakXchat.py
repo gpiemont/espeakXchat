@@ -1,3 +1,5 @@
+#To create a single wav file from the audio log, go to /tmp and execute the following command:
+# sox 0**audioGroup*  outputSingleFileName.wav
 __module_name__ = "Speech "
 __module_version__ = "0.1"
 __module_description__ = "Speech Synth"
@@ -6,13 +8,13 @@ import xchat
 import os
 import thread
  
-channels= ['#haskell', '#brazil']
+channels= ['#haskell', '#inordinatio']
 langs= [ 'italian-', 'brazil-']
  
 audioB=0
 audioI=0
 audioS=0
- 
+record=True
 def espeaking1(chan, lang, nick):
 		global audioB
 		global audioI
@@ -31,21 +33,33 @@ def espeaking1(chan, lang, nick):
 #			print "eles"
 			identidade = "mbrola-3"
 		os.system('espeak -g 10 --pho -p 30 -s 170 -v %s%s -f /tmp/teste-%s-%s ' % (lang, identidade, chan, nick))
-		os.system('espeak -w /tmp/%03d.%s-%s.wav -g 3 --pho -p 10 -s 150 -v %s%s -f /tmp/teste-%s-%s ' % (audioS, lang, identidade, nick, lang, chan, nick))
- 
+		if (record == True):
+			os.system('espeak -w /tmp/%03d.%s%s.wav -g 3 --pho -p 10 -s 150 -v %s%s -f /tmp/teste-%s-%s ' % (audioS, lang, nick, lang, identidade, chan, nick))
+
 def falar_(word, word_eol, userdata):
 	global audioS
+	global record
 	nickname = word_eol[0]
 	palavras = word_eol[1]
+#		print palavras[0]
+	if palavras[0] == '!':
+		#print (palavras[1:-2]  == 'no rec')
+		if(palavras[1:-2]  == 'no rec'):
+			record = False
+			print "recording= %s" % record
+		if(palavras[1:-2]  == 'rec'):
+			record = True
+			print "recording= %s" % record
+		return None
 	if palavras[-1] == '@':
 		palavras = palavras[0:-1]
 	current = xchat.get_info('channel')
 	nickname = nickname[0:nickname.index(" ")]
-	for lang,canal in enumerate(channels):
+	for index,canal in enumerate(channels):
 			if (current == canal):
 				with open('/tmp/teste-%s-%s' % (current, nickname), 'w') as f:
 					f.write(palavras)
-				thre1 = thread.start_new_thread(espeaking1,(current, langs[lang], nickname))
+				thre1 = thread.start_new_thread(espeaking1,(current, langs[index], nickname))
  
 xchat.hook_print('Channel Message', falar_)
 xchat.hook_print('Channel Msg Hilight', falar_)
