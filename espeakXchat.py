@@ -36,21 +36,26 @@ def espeaking1(chan, lang, nick):
 		if (record == True):
 			os.system('espeak -w /tmp/%03d.%s%s.wav -g 3 --pho -p 10 -s 150 -v %s%s -f /tmp/teste-%s-%s ' % (audioS, lang, nick, lang, identidade, chan, nick))
 
+def subcom_(cmds):
+	global record
+	if cmds[0] != '!':
+		return None
+		
+	if(cmds[1:-2]  == 'no rec'):
+		record = False
+		print "recording= %s" % record
+	if(cmds[1:-2]  == 'rec'):
+		record = True
+		print "recording= %s" % record
+		
 def falar_(word, word_eol, userdata):
 	global audioS
-	global record
 	nickname = word_eol[0]
 	palavras = word_eol[1]
 #		print palavras[0]
-	if palavras[0] == '!':
-		#print (palavras[1:-2]  == 'no rec')
-		if(palavras[1:-2]  == 'no rec'):
-			record = False
-			print "recording= %s" % record
-		if(palavras[1:-2]  == 'rec'):
-			record = True
-			print "recording= %s" % record
-		return None
+
+	subcom_(palavras)
+	
 	if palavras[-1] == '@':
 		palavras = palavras[0:-1]
 	current = xchat.get_info('channel')
